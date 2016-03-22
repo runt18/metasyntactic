@@ -1029,8 +1029,8 @@ class SameElementsAs(Comparator):
     """
 
     try:
-      expected = dict([(element, None) for element in self._expected_seq])
-      actual = dict([(element, None) for element in actual_seq])
+      expected = {element: None for element in self._expected_seq}
+      actual = {element: None for element in actual_seq}
     except TypeError:
       # Fall back to slower list-compare if any of the objects are unhashable.
       expected = list(self._expected_seq)
