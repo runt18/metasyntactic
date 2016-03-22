@@ -153,11 +153,11 @@ def RemoveMatchingTests(test_output, pattern):
   """
 
   test_output = re.sub(
-      r'.*\[ RUN      \] .*%s(.|\n)*?\[(  FAILED  |       OK )\] .*%s.*\n' % (
+      r'.*\[ RUN      \] .*{0!s}(.|\n)*?\[(  FAILED  |       OK )\] .*{1!s}.*\n'.format(
           pattern, pattern),
       '',
       test_output)
-  return re.sub(r'.*%s.*\n' % pattern, '', test_output)
+  return re.sub(r'.*{0!s}.*\n'.format(pattern), '', test_output)
 
 
 def NormalizeOutput(output):

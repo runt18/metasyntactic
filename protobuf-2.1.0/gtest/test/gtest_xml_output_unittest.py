@@ -131,7 +131,7 @@ class GTestXMLOutputUnitTest(gtest_xml_test_utils.GTestXMLTestCase):
         raise
 
     p = gtest_test_utils.Subprocess(
-        [gtest_prog_path, "%s=xml" % GTEST_OUTPUT_FLAG],
+        [gtest_prog_path, "{0!s}=xml".format(GTEST_OUTPUT_FLAG)],
         working_dir=temp_dir)
     self.assert_(p.exited)
     self.assertEquals(0, p.exit_code)
@@ -149,11 +149,11 @@ class GTestXMLOutputUnitTest(gtest_xml_test_utils.GTestXMLTestCase):
     xml_path = os.path.join(tempfile.mkdtemp(), gtest_prog_name + "out.xml")
     gtest_prog_path = gtest_test_utils.GetTestExecutablePath(gtest_prog_name)
 
-    command = [gtest_prog_path, "%s=xml:%s" % (GTEST_OUTPUT_FLAG, xml_path)]
+    command = [gtest_prog_path, "{0!s}=xml:{1!s}".format(GTEST_OUTPUT_FLAG, xml_path)]
     p = gtest_test_utils.Subprocess(command)
     if p.terminated_by_signal:
       self.assert_(False,
-                   "%s was killed by signal %d" % (gtest_prog_name, p.signal))
+                   "{0!s} was killed by signal {1:d}".format(gtest_prog_name, p.signal))
     else:
       self.assert_(p.exited)
       self.assertEquals(expected_exit_code, p.exit_code,

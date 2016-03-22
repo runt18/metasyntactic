@@ -61,7 +61,7 @@ EXPECTED_NON_EMPTY_XML = """<?xml version="1.0" encoding="UTF-8"?>
     <testcase name="Fails" status="run" time="*" classname="FailedTest">
       <failure message="Value of: 2&#x0A;Expected: 1" type=""><![CDATA[gtest_xml_output_unittest_.cc:*
 Value of: 2
-Expected: 1%(stack)s]]></failure>
+Expected: 1{stack!s}]]></failure>
     </testcase>
   </testsuite>
   <testsuite name="MixedResultTest" tests="3" failures="1" disabled="1" errors="0" time="*">
@@ -69,10 +69,10 @@ Expected: 1%(stack)s]]></failure>
     <testcase name="Fails" status="run" time="*" classname="MixedResultTest">
       <failure message="Value of: 2&#x0A;Expected: 1" type=""><![CDATA[gtest_xml_output_unittest_.cc:*
 Value of: 2
-Expected: 1%(stack)s]]></failure>
+Expected: 1{stack!s}]]></failure>
       <failure message="Value of: 3&#x0A;Expected: 2" type=""><![CDATA[gtest_xml_output_unittest_.cc:*
 Value of: 3
-Expected: 2%(stack)s]]></failure>
+Expected: 2{stack!s}]]></failure>
     </testcase>
     <testcase name="DISABLED_test" status="notrun" time="*" classname="MixedResultTest"/>
   </testsuite>
@@ -90,7 +90,7 @@ Expected: 2%(stack)s]]></failure>
      <testcase name="ExternalUtilityThatCallsRecordIntValuedProperty" status="run" time="*" classname="NoFixtureTest" key_for_utility_int="1"/>
      <testcase name="ExternalUtilityThatCallsRecordStringValuedProperty" status="run" time="*" classname="NoFixtureTest" key_for_utility_string="1"/>
   </testsuite>
-</testsuites>""" % {'stack': STACK_TRACE_TEMPLATE}
+</testsuites>""".format(**{'stack': STACK_TRACE_TEMPLATE})
 
 
 EXPECTED_EMPTY_XML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -136,7 +136,7 @@ class GTestXMLOutputUnitTest(gtest_xml_test_utils.GTestXMLTestCase):
         raise
 
     p = gtest_test_utils.Subprocess(
-        [gtest_prog_path, "%s=xml" % GTEST_OUTPUT_FLAG],
+        [gtest_prog_path, "{0!s}=xml".format(GTEST_OUTPUT_FLAG)],
         working_dir=gtest_test_utils.GetTempDir())
     self.assert_(p.exited)
     self.assertEquals(0, p.exit_code)
@@ -154,11 +154,11 @@ class GTestXMLOutputUnitTest(gtest_xml_test_utils.GTestXMLTestCase):
                             gtest_prog_name + "out.xml")
     gtest_prog_path = gtest_test_utils.GetTestExecutablePath(gtest_prog_name)
 
-    command = [gtest_prog_path, "%s=xml:%s" % (GTEST_OUTPUT_FLAG, xml_path)]
+    command = [gtest_prog_path, "{0!s}=xml:{1!s}".format(GTEST_OUTPUT_FLAG, xml_path)]
     p = gtest_test_utils.Subprocess(command)
     if p.terminated_by_signal:
       self.assert_(False,
-                   "%s was killed by signal %d" % (gtest_prog_name, p.signal))
+                   "{0!s} was killed by signal {1:d}".format(gtest_prog_name, p.signal))
     else:
       self.assert_(p.exited)
       self.assertEquals(expected_exit_code, p.exit_code,

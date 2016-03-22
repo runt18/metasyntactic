@@ -32,7 +32,7 @@ else:
   output_dir = sys.argv[2]
 
 # Read the first 1024 characters of the configure.ac file
-config_file = open("%s/configure.ac" % input_dir, 'r')
+config_file = open("{0!s}/configure.ac".format(input_dir), 'r')
 buffer_size = 1024
 opening_string = config_file.read(buffer_size)
 config_file.close()
@@ -62,10 +62,10 @@ file_data = """//
 // this, we are not not restricted to C-syntax nor are we using include guards.
 //
 
-#define GTEST_VERSIONINFO_SHORT %s.%s
-#define GTEST_VERSIONINFO_LONG %s.%s.%s
+#define GTEST_VERSIONINFO_SHORT {0!s}.{1!s}
+#define GTEST_VERSIONINFO_LONG {2!s}.{3!s}.{4!s}
 
-""" % (major_version, minor_version, major_version, minor_version, fix_version)
-version_file = open("%s/Version.h" % output_dir, 'w')
+""".format(major_version, minor_version, major_version, minor_version, fix_version)
+version_file = open("{0!s}/Version.h".format(output_dir), 'w')
 version_file.write(file_data)
 version_file.close()

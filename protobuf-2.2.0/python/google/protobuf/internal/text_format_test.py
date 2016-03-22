@@ -265,7 +265,7 @@ class TextFormatTest(test_util.GoldenMessageTestCase):
                                            e.encode('string_escape')))
       return
     else:
-      raise self.failureException('%s not raised' % exc_name)
+      raise self.failureException('{0!s} not raised'.format(exc_name))
 
 
 class TokenizerTest(unittest.TestCase):
@@ -344,7 +344,7 @@ class TokenizerTest(unittest.TestCase):
     # as the '0' special cases.
     int64_max = (1 << 63) - 1
     uint32_max = (1 << 32) - 1
-    text = '-1 %d %d' % (uint32_max + 1, int64_max + 1)
+    text = '-1 {0:d} {1:d}'.format(uint32_max + 1, int64_max + 1)
     tokenizer = text_format._Tokenizer(text)
     self.assertRaises(text_format.ParseError, tokenizer.ConsumeUint32)
     self.assertRaises(text_format.ParseError, tokenizer.ConsumeUint64)

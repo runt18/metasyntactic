@@ -62,7 +62,7 @@ def UsesColor(term, color_env_var, color_flag):
   if color_flag is None:
     args = []
   else:
-    args = ['--%s=%s' % (COLOR_FLAG, color_flag)]
+    args = ['--{0!s}={1!s}'.format(COLOR_FLAG, color_flag)]
   p = gtest_test_utils.Subprocess([COMMAND] + args)
   return not p.exited or p.exit_code
 

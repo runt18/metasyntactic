@@ -120,6 +120,6 @@ def _CEscape(text):
     if o == 34: return r'\"'   # necessary escape
     if o == 92: return r"\\"   # necessary escape
 
-    if o >= 127 or o < 32: return "\\%03o" % o # necessary escapes
+    if o >= 127 or o < 32: return "\\{0:03o}".format(o) # necessary escapes
     return c
   return "".join([escape(c) for c in text])

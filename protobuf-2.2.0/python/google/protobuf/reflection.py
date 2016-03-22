@@ -271,8 +271,8 @@ def _DefaultValueForField(message, field):
   # by tightening checking in the descriptor classes.)
   if field.label == _FieldDescriptor.LABEL_REPEATED:
     if field.default_value != []:
-      raise ValueError('Repeated field default value not empty list: %s' % (
-          field.default_value))
+      raise ValueError('Repeated field default value not empty list: {0!s}'.format((
+          field.default_value)))
     listener = _Listener(message, None)
     if field.cpp_type == _FieldDescriptor.CPPTYPE_MESSAGE:
       # We can't look at _concrete_class yet since it might not have
@@ -328,7 +328,7 @@ def _GetFieldByName(message_descriptor, field_name):
   try:
     return message_descriptor.fields_by_name[field_name]
   except KeyError:
-    raise ValueError('Protocol message has no "%s" field.' % field_name)
+    raise ValueError('Protocol message has no "{0!s}" field.'.format(field_name))
 
 
 def _AddPropertiesForFields(descriptor, cls):
@@ -383,7 +383,7 @@ def _AddPropertiesForRepeatedField(field, cls):
   def getter(self):
     return getattr(self, python_field_name)
   getter.__module__ = None
-  getter.__doc__ = 'Getter for %s.' % proto_field_name
+  getter.__doc__ = 'Getter for {0!s}.'.format(proto_field_name)
 
   # We define a setter just so we can throw an exception with a more
   # helpful error message.
@@ -391,7 +391,7 @@ def _AddPropertiesForRepeatedField(field, cls):
     raise AttributeError('Assignment not allowed to repeated field '
                          '"%s" in protocol message object.' % proto_field_name)
 
-  doc = 'Magic attribute generated for "%s" proto field.' % proto_field_name
+  doc = 'Magic attribute generated for "{0!s}" proto field.'.format(proto_field_name)
   setattr(cls, property_name, property(getter, setter, doc=doc))
 
 
@@ -415,7 +415,7 @@ def _AddPropertiesForNonRepeatedScalarField(field, cls):
   def getter(self):
     return getattr(self, python_field_name)
   getter.__module__ = None
-  getter.__doc__ = 'Getter for %s.' % proto_field_name
+  getter.__doc__ = 'Getter for {0!s}.'.format(proto_field_name)
   def setter(self, new_value):
     type_checker.CheckValue(new_value)
     setattr(self, has_field_name, True)
@@ -423,10 +423,10 @@ def _AddPropertiesForNonRepeatedScalarField(field, cls):
     self._MaybeCallTransitionToNonemptyCallback()
     setattr(self, python_field_name, new_value)
   setter.__module__ = None
-  setter.__doc__ = 'Setter for %s.' % proto_field_name
+  setter.__doc__ = 'Setter for {0!s}.'.format(proto_field_name)
 
   # Add a property to encapsulate the getter/setter.
-  doc = 'Magic attribute generated for "%s" proto field.' % proto_field_name
+  doc = 'Magic attribute generated for "{0!s}" proto field.'.format(proto_field_name)
   setattr(cls, property_name, property(getter, setter, doc=doc))
 
 
@@ -465,7 +465,7 @@ def _AddPropertiesForNonRepeatedCompositeField(field, cls):
         self._lock.release()
     return field_value
   getter.__module__ = None
-  getter.__doc__ = 'Getter for %s.' % proto_field_name
+  getter.__doc__ = 'Getter for {0!s}.'.format(proto_field_name)
 
   # We define a setter just so we can throw an exception with a more
   # helpful error message.
@@ -474,7 +474,7 @@ def _AddPropertiesForNonRepeatedCompositeField(field, cls):
                          '"%s" in protocol message object.' % proto_field_name)
 
   # Add a property to encapsulate the getter.
-  doc = 'Magic attribute generated for "%s" proto field.' % proto_field_name
+  doc = 'Magic attribute generated for "{0!s}" proto field.'.format(proto_field_name)
   setattr(cls, property_name, property(getter, setter, doc=doc))
 
 
@@ -555,7 +555,7 @@ def _AddHasFieldMethod(cls):
     try:
       return getattr(self, _HasFieldName(field_name))
     except AttributeError:
-      raise ValueError('Protocol message has no "%s" field.' % field_name)
+      raise ValueError('Protocol message has no "{0!s}" field.'.format(field_name))
   cls.HasField = HasField
 
 
@@ -679,7 +679,7 @@ def _BytesForNonRepeatedElement(value, field_number, field_type):
     fn = type_checkers.TYPE_TO_BYTE_SIZE_FN[field_type]
     return fn(field_number, value)
   except KeyError:
-    raise message_mod.EncodeError('Unrecognized field type: %d' % field_type)
+    raise message_mod.EncodeError('Unrecognized field type: {0:d}'.format(field_type))
 
 
 def _AddByteSizeMethod(message_descriptor, cls):
@@ -801,8 +801,8 @@ def _SerializeValueToEncoder(value, field_number, field_descriptor, encoder):
     method = type_checkers.TYPE_TO_SERIALIZE_METHOD[field_descriptor.type]
     method(encoder, field_number, value)
   except KeyError:
-    raise message_mod.EncodeError('Unrecognized field type: %d' %
-                                  field_descriptor.type)
+    raise message_mod.EncodeError('Unrecognized field type: {0:d}'.format(
+                                  field_descriptor.type))
 
 
 def _ImergeSorted(*streams):
@@ -877,8 +877,8 @@ def _AddSerializePartialToStringMethod(message_descriptor, cls):
           for value in repeated_value:
             method(encoder, value)
         except KeyError:
-          raise message_mod.EncodeError('Unrecognized field type: %d' %
-                                        field_descriptor.type)
+          raise message_mod.EncodeError('Unrecognized field type: {0:d}'.format(
+                                        field_descriptor.type))
       else:
         for element in repeated_value:
           _SerializeValueToEncoder(element, field_descriptor.number,
@@ -893,7 +893,7 @@ def _WireTypeForFieldType(field_type):
   try:
     return type_checkers.FIELD_TYPE_TO_WIRE_TYPE[field_type]
   except KeyError:
-    raise message_mod.DecodeError('Unknown field type: %d' % field_type)
+    raise message_mod.DecodeError('Unknown field type: {0:d}'.format(field_type))
 
 
 def _WireTypeForField(field_descriptor):
@@ -923,7 +923,7 @@ def _RecursivelyMerge(field_number, field_type, decoder, message):
   elif field_type == _FieldDescriptor.TYPE_GROUP:
     decoder.ReadGroupInto(field_number, message)
   else:
-    raise message_mod.DecodeError('Unexpected field type: %d' % field_type)
+    raise message_mod.DecodeError('Unexpected field type: {0:d}'.format(field_type))
 
 
 def _DeserializeScalarFromDecoder(field_type, decoder):
@@ -934,7 +934,7 @@ def _DeserializeScalarFromDecoder(field_type, decoder):
     method = type_checkers.TYPE_TO_DESERIALIZE_METHOD[field_type]
     return method(decoder)
   except KeyError:
-    raise message_mod.DecodeError('Unrecognized field type: %d' % field_type)
+    raise message_mod.DecodeError('Unrecognized field type: {0:d}'.format(field_type))
 
 
 def _SkipField(field_number, wire_type, decoder):
@@ -959,7 +959,7 @@ def _SkipField(field_number, wire_type, decoder):
   elif wire_type == wire_format.WIRETYPE_FIXED32:
     decoder.ReadFixed32()
   else:
-    raise message_mod.DecodeError('Unexpected wire type: %d' % wire_type)
+    raise message_mod.DecodeError('Unexpected wire type: {0:d}'.format(wire_type))
 
 
 def _SkipGroup(group_number, decoder):
@@ -1187,7 +1187,7 @@ def _IsFieldOrExtensionInitialized(message, field, errors=None):
   if field.label == _FieldDescriptor.LABEL_REQUIRED:
     if not _HasFieldOrExtension(message, field):
       if errors is not None:
-        errors.append('Required field %s is not set.' % field.full_name)
+        errors.append('Required field {0!s} is not set.'.format(field.full_name))
       return False
 
   # If the field is optional and is not set, or if it

@@ -109,7 +109,7 @@ class Encoder(object):
     """
     sign = (value & 0x80000000) and -1 or 0
     if value >> 32 != sign:
-      raise message.EncodeError('SFixed32 out of range: %d' % value)
+      raise message.EncodeError('SFixed32 out of range: {0:d}'.format(value))
     self._stream.AppendLittleEndian32(value & 0xffffffff)
 
   def AppendSFixed64NoTag(self, value):
@@ -118,7 +118,7 @@ class Encoder(object):
     """
     sign = (value & 0x8000000000000000) and -1 or 0
     if value >> 64 != sign:
-      raise message.EncodeError('SFixed64 out of range: %d' % value)
+      raise message.EncodeError('SFixed64 out of range: {0:d}'.format(value))
     self._stream.AppendLittleEndian64(value & 0xffffffffffffffff)
 
   def AppendFloatNoTag(self, value):

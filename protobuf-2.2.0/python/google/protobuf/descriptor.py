@@ -72,8 +72,8 @@ class DescriptorBase(object):
     try:
       options_class = getattr(descriptor_pb2, self._options_class_name)
     except AttributeError:
-      raise RuntimeError('Unknown options class name %s!' %
-                         (self._options_class_name))
+      raise RuntimeError('Unknown options class name {0!s}!'.format(
+                         (self._options_class_name)))
     self._options = options_class()
     return self._options
 

@@ -90,7 +90,7 @@ def VerifyFileExists(directory, relative_path):
   """
 
   if not os.path.isfile(os.path.join(directory, relative_path)):
-    print 'ERROR: Cannot find %s in directory %s.' % (relative_path,
+    print 'ERROR: Cannot find {0!s} in directory {1!s}.'.format(relative_path,
                                                       directory)
     print ('Please either specify a valid project root directory '
            'or omit it on the command line.')
@@ -119,8 +119,7 @@ def VerifyOutputFile(output_dir, relative_path):
     # TODO(wan@google.com): The following user-interaction doesn't
     # work with automated processes.  We should provide a way for the
     # Makefile to force overwriting the files.
-    print ('%s already exists in directory %s - overwrite it? (y/N) ' %
-           (relative_path, output_dir))
+    print ('{0!s} already exists in directory {1!s} - overwrite it? (y/N) '.format(relative_path, output_dir))
     answer = sys.stdin.readline().strip()
     if answer not in ['y', 'Y']:
       print 'ABORTED.'
@@ -203,7 +202,7 @@ def FuseGTestAllCcToFile(gtest_root, output_file):
           # There is no need to #include <gtest/gtest.h> more than once.
           if not GTEST_H_SEED in processed_files:
             processed_files.add(GTEST_H_SEED)
-            output_file.write('#include <%s>\n' % (GTEST_H_OUTPUT,))
+            output_file.write('#include <{0!s}>\n'.format(GTEST_H_OUTPUT))
       else:
         m = INCLUDE_SRC_FILE_REGEX.match(line)
         if m:

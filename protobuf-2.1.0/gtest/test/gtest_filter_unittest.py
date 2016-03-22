@@ -191,10 +191,10 @@ class GTestFilterUnitTest(unittest.TestCase):
     """Asserts that two sets are equal."""
 
     for elem in lhs:
-      self.assert_(elem in rhs, '%s in %s' % (elem, rhs))
+      self.assert_(elem in rhs, '{0!s} in {1!s}'.format(elem, rhs))
 
     for elem in rhs:
-      self.assert_(elem in lhs, '%s in %s' % (elem, lhs))
+      self.assert_(elem in lhs, '{0!s} in {1!s}'.format(elem, lhs))
 
   def AssertPartitionIsValid(self, set_var, list_of_sets):
     """Asserts that list_of_sets is a valid partition of set_var."""
@@ -241,7 +241,7 @@ class GTestFilterUnitTest(unittest.TestCase):
     if gtest_filter is None:
       command = COMMAND
     else:
-      command = '%s --%s=%s' % (COMMAND, FILTER_FLAG, gtest_filter)
+      command = '{0!s} --{1!s}={2!s}'.format(COMMAND, FILTER_FLAG, gtest_filter)
 
     tests_run = Run(command)[0]
     self.AssertSetEqual(tests_run, tests_to_run)
@@ -281,9 +281,9 @@ class GTestFilterUnitTest(unittest.TestCase):
     tests_to_run = self.AdjustForParameterizedTests(tests_to_run)
 
     # Construct the command line.
-    command = '%s --%s' % (COMMAND, ALSO_RUN_DISABED_TESTS_FLAG)
+    command = '{0!s} --{1!s}'.format(COMMAND, ALSO_RUN_DISABED_TESTS_FLAG)
     if gtest_filter is not None:
-      command = '%s --%s=%s' % (command, FILTER_FLAG, gtest_filter)
+      command = '{0!s} --{1!s}={2!s}'.format(command, FILTER_FLAG, gtest_filter)
 
     tests_run = Run(command)[0]
     self.AssertSetEqual(tests_run, tests_to_run)
@@ -525,7 +525,7 @@ class GTestFilterUnitTest(unittest.TestCase):
     """
 
     SetEnvVar(FILTER_ENV_VAR, 'Foo*')
-    command = '%s --%s=%s' % (COMMAND, FILTER_FLAG, '*One')
+    command = '{0!s} --{1!s}={2!s}'.format(COMMAND, FILTER_FLAG, '*One')
     tests_run = Run(command)[0]
     SetEnvVar(FILTER_ENV_VAR, None)
 
@@ -557,7 +557,7 @@ class GTestFilterUnitTest(unittest.TestCase):
 
     extra_env = {SHARD_STATUS_FILE_ENV_VAR: shard_status_file}
     stdout_file = InvokeWithModifiedEnv(extra_env, os.popen,
-                                        '%s --gtest_list_tests' % COMMAND, 'r')
+                                        '{0!s} --gtest_list_tests'.format(COMMAND), 'r')
     try:
       stdout_file.readlines()
     finally:

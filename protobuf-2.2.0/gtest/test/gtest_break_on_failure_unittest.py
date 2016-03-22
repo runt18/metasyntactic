@@ -122,9 +122,9 @@ class GTestBreakOnFailureUnitTest(gtest_test_utils.TestCase):
     if flag_value is None:
       flag = ''
     elif flag_value == '0':
-      flag = '--%s=0' % BREAK_ON_FAILURE_FLAG
+      flag = '--{0!s}=0'.format(BREAK_ON_FAILURE_FLAG)
     else:
-      flag = '--%s' % BREAK_ON_FAILURE_FLAG
+      flag = '--{0!s}'.format(BREAK_ON_FAILURE_FLAG)
 
     command = [EXE_PATH]
     if flag:
@@ -139,8 +139,7 @@ class GTestBreakOnFailureUnitTest(gtest_test_utils.TestCase):
 
     SetEnvVar(BREAK_ON_FAILURE_ENV_VAR, None)
 
-    msg = ('when %s%s, an assertion failure in "%s" %s cause a seg-fault.' %
-           (BREAK_ON_FAILURE_ENV_VAR, env_var_value_msg, ' '.join(command),
+    msg = ('when {0!s}{1!s}, an assertion failure in "{2!s}" {3!s} cause a seg-fault.'.format(BREAK_ON_FAILURE_ENV_VAR, env_var_value_msg, ' '.join(command),
             should_or_not))
     self.assert_(has_seg_fault == expect_seg_fault, msg)
 
