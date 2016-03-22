@@ -46,8 +46,8 @@ def Assert(condition):
 
 def AssertEq(expected, actual):
   if expected != actual:
-    print 'Expected: %s' % (expected,)
-    print '  Actual: %s' % (actual,)
+    print 'Expected: {0!s}'.format(expected)
+    print '  Actual: {0!s}'.format(actual)
     raise AssertionError
 
 

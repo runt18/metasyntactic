@@ -37,7 +37,7 @@ def generate_proto(source):
   if (not os.path.exists(output) or
       (os.path.exists(source) and
        os.path.getmtime(source) > os.path.getmtime(output))):
-    print "Generating %s..." % output
+    print "Generating {0!s}...".format(output)
 
     if protoc is None:
       sys.stderr.write(

@@ -20,7 +20,7 @@ This file can also be run as a script to install or upgrade setuptools.
 """
 import sys
 DEFAULT_VERSION = "0.6c9"
-DEFAULT_URL     = "http://pypi.python.org/packages/%s/s/setuptools/" % sys.version[:3]
+DEFAULT_URL     = "http://pypi.python.org/packages/{0!s}/s/setuptools/".format(sys.version[:3])
 
 md5_data = {
     'setuptools-0.6b1-py2.3.egg': '8822caf901250d848b996b7f25c6e6ca',
@@ -68,8 +68,7 @@ def _validate_md5(egg_name, data):
         digest = md5(data).hexdigest()
         if digest != md5_data[egg_name]:
             print >>sys.stderr, (
-                "md5 validation of %s failed!  (Possible download problem?)"
-                % egg_name
+                "md5 validation of {0!s} failed!  (Possible download problem?)".format(egg_name)
             )
             sys.exit(2)
     return data
@@ -127,7 +126,7 @@ def download_setuptools(
     `delay` is the number of seconds to pause before an actual download attempt.
     """
     import urllib2, shutil
-    egg_name = "setuptools-%s-py%s.egg" % (version,sys.version[:3])
+    egg_name = "setuptools-{0!s}-py{1!s}.egg".format(version, sys.version[:3])
     url = download_base + egg_name
     saveto = os.path.join(to_dir, egg_name)
     src = dst = None
@@ -249,7 +248,7 @@ def update_md5(filenames):
         md5_data[base] = md5(f.read()).hexdigest()
         f.close()
 
-    data = ["    %r: %r,\n" % it for it in md5_data.items()]
+    data = ["    {0!r}: {1!r},\n".format(*it) for it in md5_data.items()]
     data.sort()
     repl = "".join(data)
 

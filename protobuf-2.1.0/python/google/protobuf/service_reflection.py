@@ -223,7 +223,7 @@ class _ServiceBuilder(object):
       rpc_controller: RPC controller used to execute this method.
       callback: A callback which will be invoked when the method finishes.
     """
-    rpc_controller.SetFailed('Method %s not implemented.' % method_name)
+    rpc_controller.SetFailed('Method {0!s} not implemented.'.format(method_name))
     callback(None)
 
 

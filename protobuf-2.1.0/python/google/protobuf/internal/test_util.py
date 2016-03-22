@@ -349,7 +349,7 @@ def ExpectAllFieldsAndExtensionsInOrder(serialized):
   expected = ''.join(expected_strings)
 
   if expected != serialized:
-    raise ValueError('Expected %r, found %r' % (expected, serialized))
+    raise ValueError('Expected {0!r}, found {1!r}'.format(expected, serialized))
 
 def GoldenFile(filename):
   """Finds the given golden file and returns a file object representing it."""

@@ -88,7 +88,7 @@ class GTestXMLTestCase(unittest.TestCase):
     self.assertEquals(len(expected_children), len(actual_children))
     for child_id, child in expected_children.iteritems():
       self.assert_(child_id in actual_children,
-                   '<%s> is not in <%s>' % (child_id, actual_children))
+                   '<{0!s}> is not in <{1!s}>'.format(child_id, actual_children))
       self.AssertEquivalentNodes(child, actual_children[child_id])
 
   identifying_attribute = {
@@ -116,7 +116,7 @@ class GTestXMLTestCase(unittest.TestCase):
     for child in element.childNodes:
       if child.nodeType == Node.ELEMENT_NODE:
         self.assert_(child.tagName in self.identifying_attribute,
-                     "Encountered unknown element <%s>" % child.tagName)
+                     "Encountered unknown element <{0!s}>".format(child.tagName))
         childID = child.getAttribute(self.identifying_attribute[child.tagName])
         self.assert_(childID not in children)
         children[childID] = child
@@ -126,7 +126,7 @@ class GTestXMLTestCase(unittest.TestCase):
         self.assert_("detail" not in children)
         children["detail"] = child
       else:
-        self.fail("Encountered unexpected node type %d" % child.nodeType)
+        self.fail("Encountered unexpected node type {0:d}".format(child.nodeType))
     return children
 
   def NormalizeXml(self, element):

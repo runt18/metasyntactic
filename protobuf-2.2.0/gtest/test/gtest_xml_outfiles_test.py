@@ -97,7 +97,7 @@ class GTestXMLOutFilesTest(gtest_xml_test_utils.GTestXMLTestCase):
 
   def _TestOutFile(self, test_name, expected_xml):
     gtest_prog_path = gtest_test_utils.GetTestExecutablePath(test_name)
-    command = [gtest_prog_path, "--gtest_output=xml:%s" % self.output_dir_]
+    command = [gtest_prog_path, "--gtest_output=xml:{0!s}".format(self.output_dir_)]
     p = gtest_test_utils.Subprocess(command,
                                     working_dir=gtest_test_utils.GetTempDir())
     self.assert_(p.exited)

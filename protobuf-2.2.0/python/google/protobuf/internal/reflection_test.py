@@ -1702,7 +1702,7 @@ class SerializationTest(unittest.TestCase):
       self.assertEqual(exception, str(ex))
       return
     else:
-      raise self.failureException('%s not raised' % str(exc_class))
+      raise self.failureException('{0!s} not raised'.format(str(exc_class)))
 
   def testSerializeUninitialized(self):
     proto = unittest_pb2.TestRequired()

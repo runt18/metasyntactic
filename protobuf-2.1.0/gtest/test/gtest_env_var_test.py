@@ -46,8 +46,8 @@ COMMAND = gtest_test_utils.GetTestExecutablePath('gtest_env_var_test_')
 
 def AssertEq(expected, actual):
   if expected != actual:
-    print 'Expected: %s' % (expected,)
-    print '  Actual: %s' % (actual,)
+    print 'Expected: {0!s}'.format(expected)
+    print '  Actual: {0!s}'.format(actual)
     raise AssertionError
 
 
@@ -65,7 +65,7 @@ def GetFlag(command, flag):
 
   cmd = command
   if flag is not None:
-    cmd += ' %s' % (flag,)
+    cmd += ' {0!s}'.format(flag)
   stdin, stdout = os.popen2(cmd, 'b')
   stdin.close()
   line = stdout.readline()

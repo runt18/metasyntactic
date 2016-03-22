@@ -61,7 +61,7 @@ def UsesColor(term, color_env_var, color_flag):
   SetEnvVar(COLOR_ENV_VAR, color_env_var)
   cmd = COMMAND
   if color_flag is not None:
-    cmd += ' --%s=%s' % (COLOR_FLAG, color_flag)
+    cmd += ' --{0!s}={1!s}'.format(COLOR_FLAG, color_flag)
   return gtest_test_utils.GetExitStatus(os.system(cmd))
 
 

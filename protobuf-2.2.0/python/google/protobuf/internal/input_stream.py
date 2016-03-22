@@ -117,7 +117,7 @@ class InputStreamBuffer(object):
       return buffer(self._buffer, self._pos)
     else:
       if size < 0:
-        raise message.DecodeError('Negative size %d' % size)
+        raise message.DecodeError('Negative size {0:d}'.format(size))
       return buffer(self._buffer, self._pos, size)
 
   def SkipBytes(self, num_bytes):
@@ -127,7 +127,7 @@ class InputStreamBuffer(object):
     REQUIRES: num_bytes is nonnegative.
     """
     if num_bytes < 0:
-      raise message.DecodeError('Negative num_bytes %d' % num_bytes)
+      raise message.DecodeError('Negative num_bytes {0:d}'.format(num_bytes))
     self._pos += num_bytes
     self._pos = min(self._pos, len(self._buffer))
 
@@ -137,7 +137,7 @@ class InputStreamBuffer(object):
     as a string.
     """
     if size < 0:
-      raise message.DecodeError('Negative size %d' % size)
+      raise message.DecodeError('Negative size {0:d}'.format(size))
     s = (self._buffer[self._pos : self._pos + size])
     self._pos += len(s)  # Only advance by the number of bytes actually read.
     return s
@@ -172,7 +172,7 @@ class InputStreamBuffer(object):
     """
     i = self.ReadVarint64()
     if not wire_format.INT32_MIN <= i <= wire_format.INT32_MAX:
-      raise message.DecodeError('Value out of range for int32: %d' % i)
+      raise message.DecodeError('Value out of range for int32: {0:d}'.format(i))
     return int(i)
 
   def ReadVarUInt32(self):
@@ -181,7 +181,7 @@ class InputStreamBuffer(object):
     """
     i = self.ReadVarUInt64()
     if i > wire_format.UINT32_MAX:
-      raise message.DecodeError('Value out of range for uint32: %d' % i)
+      raise message.DecodeError('Value out of range for uint32: {0:d}'.format(i))
     return i
 
   def ReadVarint64(self):
@@ -199,7 +199,7 @@ class InputStreamBuffer(object):
     """
     i = self._ReadVarintHelper()
     if not 0 <= i <= wire_format.UINT64_MAX:
-      raise message.DecodeError('Value out of range for uint64: %d' % i)
+      raise message.DecodeError('Value out of range for uint64: {0:d}'.format(i))
     return i
 
   def _ReadVarintHelper(self):
@@ -252,18 +252,18 @@ class InputStreamArray(object):
       return self._buffer[self._pos : ].tostring()
     else:
       if size < 0:
-        raise message.DecodeError('Negative size %d' % size)
+        raise message.DecodeError('Negative size {0:d}'.format(size))
       return self._buffer[self._pos : self._pos + size].tostring()
 
   def SkipBytes(self, num_bytes):
     if num_bytes < 0:
-      raise message.DecodeError('Negative num_bytes %d' % num_bytes)
+      raise message.DecodeError('Negative num_bytes {0:d}'.format(num_bytes))
     self._pos += num_bytes
     self._pos = min(self._pos, len(self._buffer))
 
   def ReadBytes(self, size):
     if size < 0:
-      raise message.DecodeError('Negative size %d' % size)
+      raise message.DecodeError('Negative size {0:d}'.format(size))
     s = self._buffer[self._pos : self._pos + size].tostring()
     self._pos += len(s)  # Only advance by the number of bytes actually read.
     return s
@@ -289,13 +289,13 @@ class InputStreamArray(object):
   def ReadVarint32(self):
     i = self.ReadVarint64()
     if not wire_format.INT32_MIN <= i <= wire_format.INT32_MAX:
-      raise message.DecodeError('Value out of range for int32: %d' % i)
+      raise message.DecodeError('Value out of range for int32: {0:d}'.format(i))
     return int(i)
 
   def ReadVarUInt32(self):
     i = self.ReadVarUInt64()
     if i > wire_format.UINT32_MAX:
-      raise message.DecodeError('Value out of range for uint32: %d' % i)
+      raise message.DecodeError('Value out of range for uint32: {0:d}'.format(i))
     return i
 
   def ReadVarint64(self):
@@ -307,7 +307,7 @@ class InputStreamArray(object):
   def ReadVarUInt64(self):
     i = self._ReadVarintHelper()
     if not 0 <= i <= wire_format.UINT64_MAX:
-      raise message.DecodeError('Value out of range for uint64: %d' % i)
+      raise message.DecodeError('Value out of range for uint64: {0:d}'.format(i))
     return i
 
   def _ReadVarintHelper(self):

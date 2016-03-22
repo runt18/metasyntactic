@@ -65,7 +65,7 @@ class OutputStream(object):
     """
     if not 0 <= unsigned_value <= wire_format.UINT32_MAX:
       raise message.EncodeError(
-          'Unsigned 32-bit out of range: %d' % unsigned_value)
+          'Unsigned 32-bit out of range: {0:d}'.format(unsigned_value))
     self._buffer.fromstring(struct.pack(
         wire_format.FORMAT_UINT32_LITTLE_ENDIAN, unsigned_value))
 
@@ -75,7 +75,7 @@ class OutputStream(object):
     """
     if not 0 <= unsigned_value <= wire_format.UINT64_MAX:
       raise message.EncodeError(
-          'Unsigned 64-bit out of range: %d' % unsigned_value)
+          'Unsigned 64-bit out of range: {0:d}'.format(unsigned_value))
     self._buffer.fromstring(struct.pack(
         wire_format.FORMAT_UINT64_LITTLE_ENDIAN, unsigned_value))
 
@@ -85,7 +85,7 @@ class OutputStream(object):
     always require 10 bytes of space.)
     """
     if not wire_format.INT32_MIN <= value <= wire_format.INT32_MAX:
-      raise message.EncodeError('Value out of range: %d' % value)
+      raise message.EncodeError('Value out of range: {0:d}'.format(value))
     self.AppendVarint64(value)
 
   def AppendVarUInt32(self, value):
@@ -93,7 +93,7 @@ class OutputStream(object):
     encoded as a varint.
     """
     if not 0 <= value <= wire_format.UINT32_MAX:
-      raise message.EncodeError('Value out of range: %d' % value)
+      raise message.EncodeError('Value out of range: {0:d}'.format(value))
     self.AppendVarUInt64(value)
 
   def AppendVarint64(self, value):
@@ -101,7 +101,7 @@ class OutputStream(object):
     encoded as a varint.
     """
     if not wire_format.INT64_MIN <= value <= wire_format.INT64_MAX:
-      raise message.EncodeError('Value out of range: %d' % value)
+      raise message.EncodeError('Value out of range: {0:d}'.format(value))
     if value < 0:
       value += (1 << 64)
     self.AppendVarUInt64(value)
@@ -111,7 +111,7 @@ class OutputStream(object):
     encoded as a varint.
     """
     if not 0 <= unsigned_value <= wire_format.UINT64_MAX:
-      raise message.EncodeError('Value out of range: %d' % unsigned_value)
+      raise message.EncodeError('Value out of range: {0:d}'.format(unsigned_value))
     while True:
       bits = unsigned_value & 0x7f
       unsigned_value >>= 7

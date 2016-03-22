@@ -94,9 +94,9 @@ class ExpectedMethodCallsError(Error):
     self._expected_methods = expected_methods
 
   def __str__(self):
-    calls = "\n".join(["%3d.  %s" % (i, m)
+    calls = "\n".join(["{0:3d}.  {1!s}".format(i, m)
                        for i, m in enumerate(self._expected_methods)])
-    return "Verify: Expected methods never called:\n%s" % (calls,)
+    return "Verify: Expected methods never called:\n{0!s}".format(calls)
 
 
 class UnexpectedMethodCallError(Error):
@@ -123,8 +123,7 @@ class UnexpectedMethodCallError(Error):
     self._expected = expected
 
   def __str__(self):
-    return "Unexpected method call: %s.  Expecting: %s" % \
-      (self._unexpected_method, self._expected)
+    return "Unexpected method call: {0!s}.  Expecting: {1!s}".format(self._unexpected_method, self._expected)
 
 
 class UnknownMethodCallError(Error):
@@ -143,8 +142,8 @@ class UnknownMethodCallError(Error):
     self._unknown_method_name = unknown_method_name
 
   def __str__(self):
-    return "Method called is not a member of the object: %s" % \
-      self._unknown_method_name
+    return "Method called is not a member of the object: {0!s}".format( \
+      self._unknown_method_name)
 
 
 class Mox(object):
@@ -615,8 +614,8 @@ class MockMethod(object):
   def __str__(self):
     params = ', '.join(
         [repr(p) for p in self._params or []] +
-        ['%s=%r' % x for x in sorted((self._named_params or {}).items())])
-    desc = "%s(%s) -> %r" % (self._name, params, self._return_value)
+        ['{0!s}={1!r}'.format(*x) for x in sorted((self._named_params or {}).items())])
+    desc = "{0!s}({1!s}) -> {2!r}".format(self._name, params, self._return_value)
     return desc
 
   def __eq__(self, rhs):
@@ -898,7 +897,7 @@ class StrContains(Comparator):
       return False
 
   def __repr__(self):
-    return '<str containing \'%s\'>' % self._search_string
+    return '<str containing \'{0!s}\'>'.format(self._search_string)
 
 
 class Regex(Comparator):
@@ -929,9 +928,9 @@ class Regex(Comparator):
     return self.regex.search(rhs) is not None
 
   def __repr__(self):
-    s = '<regular expression \'%s\'' % self.regex.pattern
+    s = '<regular expression \'{0!s}\''.format(self.regex.pattern)
     if self.regex.flags:
-      s += ', flags=%d' % self.regex.flags
+      s += ', flags={0:d}'.format(self.regex.flags)
     s += '>'
     return s
 
@@ -965,7 +964,7 @@ class In(Comparator):
     return self._key in rhs
 
   def __repr__(self):
-    return '<sequence or map containing \'%s\'>' % self._key
+    return '<sequence or map containing \'{0!s}\'>'.format(self._key)
 
 
 class ContainsKeyValue(Comparator):
@@ -999,7 +998,7 @@ class ContainsKeyValue(Comparator):
       return False
 
   def __repr__(self):
-    return '<map containing the entry \'%s: %s\'>' % (self._key, self._value)
+    return '<map containing the entry \'{0!s}: {1!s}\'>'.format(self._key, self._value)
 
 
 class SameElementsAs(Comparator):
@@ -1040,7 +1039,7 @@ class SameElementsAs(Comparator):
     return expected == actual
 
   def __repr__(self):
-    return '<sequence with same elements as \'%s\'>' % self._expected_seq
+    return '<sequence with same elements as \'{0!s}\'>'.format(self._expected_seq)
 
 
 class And(Comparator):
@@ -1073,7 +1072,7 @@ class And(Comparator):
     return True
 
   def __repr__(self):
-    return '<AND %s>' % str(self._comparators)
+    return '<AND {0!s}>'.format(str(self._comparators))
 
 
 class Or(Comparator):
@@ -1106,7 +1105,7 @@ class Or(Comparator):
     return False
 
   def __repr__(self):
-    return '<OR %s>' % str(self._comparators)
+    return '<OR {0!s}>'.format(str(self._comparators))
 
 
 class Func(Comparator):
@@ -1189,7 +1188,7 @@ class MethodGroup(object):
     return self._group_name
 
   def __str__(self):
-    return '<%s "%s">' % (self.__class__.__name__, self._group_name)
+    return '<{0!s} "{1!s}">'.format(self.__class__.__name__, self._group_name)
 
   def AddMethod(self, mock_method):
     raise NotImplementedError

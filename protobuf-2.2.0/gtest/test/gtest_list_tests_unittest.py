@@ -119,10 +119,10 @@ class GTestListTestsUnitTest(gtest_test_utils.TestCase):
       flag = ''
       flag_expression = 'not set'
     elif flag_value == '0':
-      flag = '--%s=0' % LIST_TESTS_FLAG
+      flag = '--{0!s}=0'.format(LIST_TESTS_FLAG)
       flag_expression = '0'
     else:
-      flag = '--%s' % LIST_TESTS_FLAG
+      flag = '--{0!s}'.format(LIST_TESTS_FLAG)
       flag_expression = '1'
 
     args = [flag]
@@ -132,8 +132,7 @@ class GTestListTestsUnitTest(gtest_test_utils.TestCase):
 
     output = Run(args)
 
-    msg = ('when %s is %s, the output of "%s" is "%s".' %
-           (LIST_TESTS_FLAG, flag_expression, ' '.join(args), output))
+    msg = ('when {0!s} is {1!s}, the output of "{2!s}" is "{3!s}".'.format(LIST_TESTS_FLAG, flag_expression, ' '.join(args), output))
 
     if expected_output is not None:
       self.assert_(output == expected_output, msg)

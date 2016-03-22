@@ -86,8 +86,7 @@ class TypeChecker(object):
 
   def CheckValue(self, proposed_value):
     if not isinstance(proposed_value, self._acceptable_types):
-      message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), self._acceptable_types))
+      message = ('{0:.1024!r} has type {1!s}, but expected one of: {2!s}'.format(proposed_value, type(proposed_value), self._acceptable_types))
       raise TypeError(message)
 
 
@@ -99,11 +98,10 @@ class IntValueChecker(object):
 
   def CheckValue(self, proposed_value):
     if not isinstance(proposed_value, (int, long)):
-      message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), (int, long)))
+      message = ('{0:.1024!r} has type {1!s}, but expected one of: {2!s}'.format(proposed_value, type(proposed_value), (int, long)))
       raise TypeError(message)
     if not self._MIN <= proposed_value <= self._MAX:
-      raise ValueError('Value out of range: %d' % proposed_value)
+      raise ValueError('Value out of range: {0:d}'.format(proposed_value))
 
 
 class UnicodeValueChecker(object):
@@ -112,8 +110,7 @@ class UnicodeValueChecker(object):
 
   def CheckValue(self, proposed_value):
     if not isinstance(proposed_value, (str, unicode)):
-      message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), (str, unicode)))
+      message = ('{0:.1024!r} has type {1!s}, but expected one of: {2!s}'.format(proposed_value, type(proposed_value), (str, unicode)))
       raise TypeError(message)
 
     # If the value is of type 'str' make sure that it is in 7-bit ASCII
